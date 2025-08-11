@@ -1,33 +1,62 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import './style.css';
 
 function App() {
-  const [menuOpen, setMenuOpen] = React.useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [showPopup, setShowPopup] = useState(true);
 
   useEffect(() => {
     AOS.init({ duration: 1000 });
   }, []);
 
+  // Disable scrolling when popup is open
+  useEffect(() => {
+    if (showPopup) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'auto';
+    }
+  }, [showPopup]);
+
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
   };
 
+  // Function to close the popup
+  const closePopup = () => {
+    setShowPopup(false);
+  };
+
   return (
     <div className="container">
+
+      {/* Popup Welcome Message */}
+      {showPopup && (
+        <div className="popup-overlay">
+          <div className="popup">
+            <h2>Welcome to My Portfolio!</h2>
+            <p>Glad to have you here. Feel free to explore my work.</p>
+            <button onClick={closePopup}>Close</button>
+          </div>
+        </div>
+      )}
+
+      {/* Navbar */}
       <nav className="navbar">
         <div className='logo'>Portfolio</div>
         <button className="menu-toggle" onClick={toggleMenu}>
           ☰
         </button>
-        <div className={`nav-links ${menuOpen ? 'active' : ''}`}></div>
-        <a href="#about">About</a>
-        <a href="#qualification">Qualification</a>
-        <a href="#internship">Internship</a>
-        <a href="#projects">Projects</a>
-        <a href="#skills">Skills</a>
-        <a href="#contact">Contact</a>
+        <div className={`nav-links ${menuOpen ? 'active' : ''}`}>
+          <a href="#about">About</a>
+          <a href="#qualification">Qualification</a>
+          <a href="#internship">Internship</a>
+          <a href="#projects">Projects</a>
+          <a href="#skills">Skills</a>
+          <a href="#contact">Contact</a>
+        </div>
       </nav>
 
       <header>
@@ -50,7 +79,6 @@ function App() {
         <p><strong>CGPA:</strong> 7.91 | <strong>Core CGPA:</strong> 8.11</p>
         <p><strong>Aggregate:</strong> 73.15% | <strong>Core %:</strong> 74.50%</p>
         <p><strong>Result:</strong> First Class Honours with Distinction</p>
-        <img src="/degree.jpg" alt="Degree Certificate" className="certificate-img" />
       </section>
 
       <section id="internship" className="internship" data-aos="fade-up">
@@ -59,7 +87,6 @@ function App() {
         <p><strong>Duration:</strong> 1st July 2025 – 31st July 2025</p>
         <p><strong>Role:</strong> Web Development Intern</p>
         <p><strong>Remarks:</strong> Completed with outstanding performance</p>
-        <img src="/internship.jpg" alt="Internship Certificate" className="certificate-img" />
       </section>
 
       <section id="projects" className="projects" data-aos="fade-up">
@@ -70,19 +97,16 @@ function App() {
             <p>A basic Instagram UI clone using HTML, CSS, and JS.</p>
             <a href="https://krishnakanta-biswal.github.io/Instagram-clone/" target="_blank" rel="noreferrer">Live Demo</a>
           </div>
-
           <div className="project-card">
             <h3>Recurring Date Picker</h3>
             <p>A date picker that allows selecting recurring dates.</p>
             <a href="https://krishnakanta-biswal.github.io/recurring-date-picker/" target="_blank" rel="noreferrer">Live Demo</a>
           </div>
-
           <div className="project-card">
             <h3>Stopwatch</h3>
             <p>A stopwatch with start/pause/reset.</p>
             <a href="https://krishnakanta-biswal.github.io/PRODIGY_WD_02/" target="_blank" rel="noreferrer">Live Demo</a>
           </div>
-
           <div className="project-card">
             <h3>Tic Tac Toe</h3>
             <p>Two-player Tic Tac Toe game.</p>
@@ -105,7 +129,7 @@ function App() {
       <section id="contact" className="contact" data-aos="fade-up">
         <h2>Contact</h2>
         <p>Mobile No: +91 7894269292</p>
-        <p>Email: krishnakanta@example.com</p>
+        <p>Email: krishnakanta4@gmail.com</p>
         <p>GitHub: <a href="https://github.com/krishnakanta-biswal" target="_blank" rel="noreferrer">View Profile</a></p>
       </section>
 
